@@ -62,3 +62,13 @@ fi
 if [ -f /usr/share/bash-completion/completions/fzf ]; then
     . /usr/share/bash-completion/completions/fzf
 fi
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+
+# added by Webi for pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

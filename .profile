@@ -28,3 +28,6 @@ fi
 
 # override fzf executable options shared by fzf commands
 export FZF_DEFAULT_OPTS="--height 50% --reverse --bind change:top"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
