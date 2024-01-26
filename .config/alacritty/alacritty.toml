@@ -1,0 +1,43 @@
+# Alacritty's config file.
+# For more information, see https://alacritty.org/config-alacritty.html.
+
+[window]
+startup_mode = "Maximized"
+
+# To install a new font download the corresponding zip file and unzip it by
+# running unzip path/to/zipped/font -d ~/.local/share/fonts/{font-name}, then
+# run fc-cache -fv and ensure the font is correctly detected by the system
+# by running fc-list | grep {font-name}.
+[font]
+normal      = { family = "JetBrainsMono Nerd Font Mono", style = "Medium"      }
+italic      = { family = "JetBrainsMono Nerd Font Mono", style = "Italic"      }
+bold        = { family = "JetBrainsMono Nerd Font Mono", style = "Bold"        }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
+size        = 10
+
+# Colors converted to TOML format following https://toml.io/en/ and sourced from
+# https://github.com/folke/tokyonight.nvim/blob/main/extras/alacritty/tokyonight_night.yml.
+[colors]
+indexed_colors = [{ index = 16, color = "#ff9e64" },
+                  { index = 17, color = "#db4b4b" }]
+[colors.primary]
+background = "#1a1b26"
+foreground = "#c0caf5"
+[colors.normal]
+black   = "#15161e"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#a9b1d6"
+[colors.bright]
+black   = "#414868"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#c0caf5"
