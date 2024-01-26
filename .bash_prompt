@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# ~/.bash_prompt: custom bash prompt sourced from ~/.bashrc.
+
+STYLE_NORMAL='\[\033[0m\]'
+
+COLOR_RED='\[\033[31m\]'
+COLOR_GREEN='\[\033[32m\]'
+COLOR_YELLOW='\[\033[33m\]'
+COLOR_BLUE='\[\033[34m\]'
+COLOR_CYAN='\[\033[36m\]'
+
+GIT_PROMPT_PREFIX="${COLOR_BLUE}git:("
+GIT_PROMPT_SUFFIX="${STYLE_NORMAL} "
+GIT_PROMPT_DIRTY=" ${COLOR_YELLOW}✗"
+
+# git commands are read-only and should not interfere with other
+# processes. As such, we wrap the git command in a local function instead of
+# exporting the variable directly in order to avoid interfering with
+# manually-run git commands by the user.
+function __ps1_git() {
+    GIT_OPTIONAL_LOCKS=0 command git "$@"
+}
+
+# check whether the user is currently inside a git repository.
+function ps1_git_directory() {
+    if ! __ps1_git rev-parse --is-inside-work-tree &> /dev/null \
+        || [[ "$(__ps1_git config 2>/dev/null)" == 1 ]]; then
+        return 1
+    fi;
+    return 0
+}
+
+# return the current repository's branch name, if available.
+function ps1_git_branch() {
+    local ref
+    ref=$(__ps1_git symbolic-ref --short HEAD 2> /dev/null) \
+        || ref=$(__ps1_git describe --tags --exact-match HEAD 2> /dev/null) \
+        || ref=$(__ps1_git rev-parse --short HEAD 2> /dev/null) \
+        || return 0
+    echo "${ref}"
+}
+
+# return the dirty git icon if it matches the current repository's status.
+function ps1_git_status() {
+    local git_status
+    if [[ "$(__ps1_git config 2> /dev/null)" != "1" ]]; then
+        git_status=$(__ps1_git status --porcelain 2> /dev/null | tail -n 1)
+    fi;
+    if [[ -n $git_status ]]; then
+        echo "${GIT_PROMPT_DIRTY}"
+    fi
+}
+
+# change prompt's icon based on last executed command's exit status.
+function ps1_prompt_icon() {
+    if [ "$?" == "0" ]; then
+        echo "${COLOR_GREEN}❯"
+    else
+        echo "${COLOR_RED}❯"
+    fi
+}
+
+# setup prompt by configuring prompt format and git information.
+function ps1_prompt_setup() {
+    PS1="$(ps1_prompt_icon) ${COLOR_CYAN}\W${STYLE_NORMAL} "
+
+    if (ps1_git_directory); then
+        PS1+="${GIT_PROMPT_PREFIX}${COLOR_RED}$(ps1_git_branch)${COLOR_BLUE})"
+        PS1+="$(ps1_git_status)${GIT_PROMPT_SUFFIX}"
+    fi;
+}
+
+export PROMPT_COMMAND=ps1_prompt_setup
