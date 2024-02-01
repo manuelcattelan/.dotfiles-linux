@@ -21,5 +21,3 @@ vim.opt.pumheight = 10
 vim.opt.hidden = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
-
-vim.opt.clipboard:append("unnamedplus")
