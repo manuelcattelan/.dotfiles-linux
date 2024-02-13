@@ -6,7 +6,6 @@ return {
       python = { "black" },
       typescript = { "prettierd" },
       vue = { "prettierd" },
-      sh = { "beautysh" },
     },
     format_on_save = {
       -- These options will be passed to conform.format()
