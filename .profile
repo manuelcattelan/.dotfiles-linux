@@ -26,6 +26,9 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# source local environmental variables
+[ -s "$HOME/.profile.local" ] && source "$HOME/.profile.local"
+
 # override fzf executable options shared by fzf commands
 export FZF_DEFAULT_OPTS="--height 50% --reverse --bind change:top"
 
