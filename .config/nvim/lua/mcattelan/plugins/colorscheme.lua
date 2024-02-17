@@ -11,6 +11,7 @@ return {
       keywords = { italic = false },
       -- Background styles. Can be "dark", "transparent" or "normal"
       floats = "normal", -- style for floating windows
+      sidebars = "normal", -- style for sidebars, see below
     },
     lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
     --- You can override specific highlights to use other groups or a hex color
