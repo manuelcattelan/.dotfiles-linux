@@ -76,3 +76,6 @@ map("v", "<leader>y", '"+y', { desc = "Copy to system clipboard" })
 map("v", "<leader>p", '"_dP', { desc = "Replace without yanking" })
 -- Delete selected text without yanking
 map("v", "<leader>d", '"-d"', { desc = "Delete without yanking" })
+
+-- File explorer
+map("n", "<leader>fe", "<cmd>Lexplore<CR>", { desc = "Toggle file explorer" })
