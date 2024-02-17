@@ -10,22 +10,22 @@ cd() {
     fi
 }
 
-# ff - fuzzy find file and open it with default editor
-ff() {
+# pf - fuzzy find file and open it with default editor
+pf() {
     file="$(fdfind --type f --hidden --exclude .git | fzf)" \
         && ${EDITOR:-nvim} "$file" \
         && history -s "${EDITOR:-nvim} "$file""
 }
 
-# fd - fuzzy find dir and `cd` into it
-fd() {
+# pd - fuzzy find dir and `cd` into it
+pd() {
     dir="$(fdfind --type d --hidden --exclude .git | fzf)" \
         && cd "$dir" \
         && history -s "cd "$dir""
 }
 
-# fdr - fuzzy find parent dir and `cd` into it
-fdr() {
+# pdr - fuzzy find parent dir and `cd` into it
+pdr() {
     local dirs=()
     find_parent_dirs() {
         if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
