@@ -39,6 +39,7 @@ end
 
 local function map(mode, key, command, options)
   options = options or {}
+
   options.silent = options.silent ~= false
   options.noremap = options.noremap ~= true
 
@@ -48,6 +49,9 @@ end
 -- Set leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- Disable command-line window
+map("n", "q:", "<nop>")
 
 -- Window navigation
 map("n", "<leader>w", "<cmd>only<CR>", { desc = "Close all windows except for current one" })
@@ -78,4 +82,10 @@ map("v", "<leader>p", '"_dP', { desc = "Replace without yanking" })
 map("v", "<leader>d", '"-d"', { desc = "Delete without yanking" })
 
 -- File explorer
-map("n", "<leader>fe", "<cmd>Lexplore<CR>", { desc = "Toggle file explorer" })
+map("n", "<leader>fe", function()
+  if vim.api.nvim_buf_get_option(0, "filetype") == "netrw" then
+    vim.api.nvim_exec("close", false)
+  else
+    vim.api.nvim_exec(":Vexplore", false)
+  end
+end, { desc = "Toggle file explorer" })

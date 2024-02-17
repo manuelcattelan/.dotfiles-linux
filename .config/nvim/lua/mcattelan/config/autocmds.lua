@@ -60,3 +60,37 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+-- Better keymaps for Netrw
+vim.api.nvim_create_autocmd("filetype", {
+  pattern = "netrw",
+  callback = function()
+    local function try_window_jump(jump_direction, jump_count)
+      local previous_window_number = vim.fn.winnr()
+      vim.cmd(jump_count .. "wincmd " .. jump_direction)
+      return vim.fn.winnr() ~= previous_window_number
+    end
+
+    local function try_window_jump_with_wrap(intended_jump_direction, opposite_direction)
+      local jump_count = vim.v.count1
+      return function()
+        if not try_window_jump(intended_jump_direction, jump_count) then
+          try_window_jump(opposite_direction, 999)
+        end
+      end
+    end
+
+    local function map(mode, key, command, options)
+      options = options or {}
+
+      options.silent = options.silent ~= false
+      options.noremap = options.noremap ~= true
+      options.remap = options.remap ~= true
+      options.buffer = options.buffer ~= true
+
+      vim.keymap.set(mode, key, command, options)
+    end
+
+    map("n", "<C-l>", try_window_jump_with_wrap("l", "h"), { desc = "Jump to window (right)" })
+  end,
+})
