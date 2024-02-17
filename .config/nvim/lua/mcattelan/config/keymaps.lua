@@ -13,10 +13,35 @@ local function try_window_jump_with_wrap(intended_jump_direction, opposite_direc
   end
 end
 
+local function resize_window(direction)
+  local resize_horizontal = direction == "left" or direction == "right"
+  local amount = resize_horizontal and 5 or 3
+
+  local current_window_position = vim.api.nvim_win_get_position(0)
+  local current_window_width = vim.api.nvim_win_get_width(0)
+  local current_window_height = vim.api.nvim_win_get_height(0)
+
+  if resize_horizontal then
+    amount = current_window_position[2] == 0 and -amount or amount
+  else
+    amount = current_window_position[1] == 0 and -amount or amount
+  end
+
+  current_window_width = (direction == "left") and (current_window_width + amount) or (current_window_width - amount)
+  current_window_height = (direction == "up") and (current_window_height + amount) or (current_window_height - amount)
+
+  if resize_horizontal then
+    vim.api.nvim_win_set_width(0, current_window_width)
+  else
+    vim.api.nvim_win_set_height(0, current_window_height)
+  end
+end
+
 local function map(mode, key, command, options)
   options = options or {}
   options.silent = options.silent ~= false
   options.noremap = options.noremap ~= true
+
   vim.keymap.set(mode, key, command, options)
 end
 
@@ -30,6 +55,20 @@ map("n", "<C-h>", try_window_jump_with_wrap("h", "l"), { desc = "Jump to window 
 map("n", "<C-j>", try_window_jump_with_wrap("j", "k"), { desc = "Jump to window (down)" })
 map("n", "<C-k>", try_window_jump_with_wrap("k", "j"), { desc = "Jump to window (up)" })
 map("n", "<C-l>", try_window_jump_with_wrap("l", "h"), { desc = "Jump to window (right)" })
+
+-- Window resizing
+map("n", "<C-S-h>", function()
+  resize_window("left")
+end, { desc = "Resize window (left)" })
+map("n", "<C-S-j>", function()
+  resize_window("down")
+end, { desc = "Resize window (down)" })
+map("n", "<C-S-k>", function()
+  resize_window("up")
+end, { desc = "Resize window (up)" })
+map("n", "<C-S-l>", function()
+  resize_window("right")
+end, { desc = "Resize window (right)" })
 
 -- Copy selected text to system clipboard
 map("v", "<leader>y", '"+y', { desc = "Copy to system clipboard" })
