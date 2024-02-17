@@ -8,8 +8,9 @@ return {
     { "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end, desc = "Toggle trouble window" },
   },
   opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
+    height = 15,
   },
+  config = function(_, opts)
+    require("trouble").setup(opts)
+  end,
 }
