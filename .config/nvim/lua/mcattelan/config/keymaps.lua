@@ -83,9 +83,12 @@ map("v", "<leader>d", '"-d"', { desc = "Delete without yanking" })
 
 -- File explorer
 map("n", "<leader>fe", function()
-  if vim.api.nvim_buf_get_option(0, "filetype") == "netrw" then
-    vim.api.nvim_exec("close", false)
-  else
-    vim.api.nvim_exec(":Vexplore", false)
+  for _, window in pairs(vim.api.nvim_list_wins()) do
+    local buffer = vim.fn.winbufnr(window)
+    if vim.api.nvim_buf_get_option(buffer, "filetype") == "netrw" then
+      vim.api.nvim_win_close(window, false)
+      return
+    end
   end
+  vim.api.nvim_exec(":Vexplore", false)
 end, { desc = "Toggle file explorer" })
