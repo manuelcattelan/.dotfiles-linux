@@ -12,8 +12,8 @@ return {
       { "<leader>h2", function() harpoon:list():select(2) end, desc = "Open second buffer in harpoon list" },
       { "<leader>h3", function() harpoon:list():select(3) end, desc = "Open third buffer in harpoon list" },
       { "<leader>h4", function() harpoon:list():select(4) end, desc = "Open fourth buffer in harpoon list" },
-      { "<C-S-P>", function() harpoon:list():prev() end, desc = "Toggle previous buffer in harpoon list" },
-      { "<C-S-N>", function() harpoon:list():next() end, desc = "Toggle next buffer in harpoon list" },
+      { "<C-p>", function() harpoon:list():prev() end, desc = "Toggle previous buffer in harpoon list" },
+      { "<C-n>", function() harpoon:list():next() end, desc = "Toggle next buffer in harpoon list" },
     }
   end,
   config = function()
