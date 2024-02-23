@@ -61,36 +61,27 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Better keymaps for Netrw
-vim.api.nvim_create_autocmd("filetype", {
-  pattern = "netrw",
+-- Smart way to close file explorer if it is the last open window
+vim.api.nvim_create_autocmd("QuitPre", {
+  group = create_augroup("file_explorer"),
   callback = function()
-    local function try_window_jump(jump_direction, jump_count)
-      local previous_window_number = vim.fn.winnr()
-      vim.cmd(jump_count .. "wincmd " .. jump_direction)
-      return vim.fn.winnr() ~= previous_window_number
-    end
-
-    local function try_window_jump_with_wrap(intended_jump_direction, opposite_direction)
-      local jump_count = vim.v.count1
-      return function()
-        if not try_window_jump(intended_jump_direction, jump_count) then
-          try_window_jump(opposite_direction, 999)
-        end
+    local tree_windows = {}
+    local floating_windows = {}
+    local current_windows = vim.api.nvim_list_wins()
+    for _, window in ipairs(current_windows) do
+      local buffer_name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(window))
+      if buffer_name:match("NvimTree_") ~= nil then
+        table.insert(tree_windows, window)
+      end
+      if vim.api.nvim_win_get_config(window).relative ~= "" then
+        table.insert(floating_windows, window)
       end
     end
-
-    local function map(mode, key, command, options)
-      options = options or {}
-
-      options.silent = options.silent ~= false
-      options.noremap = options.noremap ~= true
-      options.remap = options.remap ~= true
-      options.buffer = options.buffer ~= true
-
-      vim.keymap.set(mode, key, command, options)
+    if 1 == #current_windows - #floating_windows - #tree_windows then
+      -- Should quit, so we close all invalid windows.
+      for _, window in ipairs(tree_windows) do
+        vim.api.nvim_win_close(window, true)
+      end
     end
-
-    map("n", "<C-l>", try_window_jump_with_wrap("l", "h"), { desc = "Jump to window (right)" })
   end,
 })

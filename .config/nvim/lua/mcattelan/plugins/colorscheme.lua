@@ -27,6 +27,7 @@ return {
       highlights.CmpItemAbbrDeprecated = { fg = colors.dark5, italic = true, strikethrough = true }
 
       highlights.WinSeparator = { fg = colors.fg_dark }
+      highlights.NvimTreeWinSeparator = { fg = colors.fg_dark }
     end,
   },
   config = function(_, opts)
