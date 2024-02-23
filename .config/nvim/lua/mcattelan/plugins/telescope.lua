@@ -55,6 +55,9 @@ return {
             end,
           },
         },
+        preview = {
+          hide_on_startup = true,
+        },
         layout_config = {
           preview_width = 80,
         },
