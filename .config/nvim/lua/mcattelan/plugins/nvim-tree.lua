@@ -18,6 +18,9 @@ return {
     view = {
       width = "25%",
     },
+    live_filter = {
+      always_show_folders = false,
+    },
   },
   config = function(_, opts)
     require("nvim-tree").setup(opts)
