@@ -42,6 +42,8 @@ return {
         vim.keymap.set({ "i", "v" }, "<C-k>", vim.lsp.buf.signature_help, options)
         options.desc = "Rename word under cursor"
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, options)
+        options.desc = "Show code actions"
+        vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, options)
 
         options.desc = "Show line diagnostics"
         vim.keymap.set("n", "<leader>do", vim.diagnostic.open_float, options)
