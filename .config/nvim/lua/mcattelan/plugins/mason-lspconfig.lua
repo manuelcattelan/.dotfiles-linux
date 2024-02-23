@@ -27,6 +27,17 @@ return {
           },
         })
       end,
+      ["tsserver"] = function()
+        lspconfig["tsserver"].setup({
+          init_options = {
+            preferences = {
+              -- other preferences...
+              importModuleSpecifierPreference = "relative",
+              importModuleSpecifierEnding = "minimal",
+            },
+          },
+        })
+      end,
     }
     mason_lspconfig.setup(opts)
     mason_lspconfig.setup_handlers(mason_lspconfig_handlers)
