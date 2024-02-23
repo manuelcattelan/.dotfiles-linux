@@ -61,16 +61,16 @@ map("n", "<C-k>", try_window_jump_with_wrap("k", "j"), { desc = "Jump to window 
 map("n", "<C-l>", try_window_jump_with_wrap("l", "h"), { desc = "Jump to window (right)" })
 
 -- Window resizing
-map("n", "<C-S-h>", function()
+map("n", "+", function()
   resize_window("left")
 end, { desc = "Resize window (left)" })
-map("n", "<C-S-j>", function()
+map("n", "\\", function()
   resize_window("down")
 end, { desc = "Resize window (down)" })
-map("n", "<C-S-k>", function()
+map("n", "|", function()
   resize_window("up")
 end, { desc = "Resize window (up)" })
-map("n", "<C-S-l>", function()
+map("n", "=", function()
   resize_window("right")
 end, { desc = "Resize window (right)" })
 
