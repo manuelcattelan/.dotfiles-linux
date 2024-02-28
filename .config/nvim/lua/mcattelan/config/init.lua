@@ -17,6 +17,10 @@ require("lazy").setup("mcattelan.plugins", {
     -- try to load one of these colorschemes when starting an installation during startup
     colorscheme = { "tokyonight" },
   },
+  ui = {
+    -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
+    border = "single",
+  },
   change_detection = {
     -- automatically check for config file changes and reload the ui
     enabled = false,
